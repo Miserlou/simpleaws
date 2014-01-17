@@ -4,7 +4,7 @@ import sys
 import boto
 import uuid
 from boto.s3.key import Key
-import simpleaws
+from simpleaws import simpleaws
 import settings
 
 def upload_test_files(username, bucket=None, bucketname=None, keys=None):
