@@ -1,3 +1,5 @@
+![Zen Bezos](http://i.imgur.com/6mdNXPl.png)
+
 simpleaws
 =========
 
