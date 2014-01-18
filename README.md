@@ -27,32 +27,38 @@ An idiot-proof way to make a public AWS based service.
 
 
 Connect to S3!
+
 ```python
 simpleaws.set_keys(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_ACCESS_KEY)
 simpleaws.connect()
 ```
 
 Create a bucket!
+
 ```python
 simpleaws.create_bucket(bucketname)
 ```
 
 Create a user!
+
 ```python
-simpleaws.create_bucket(bucketname)
+simpleaws.create_user(username)
 ```
 
 Move a bucket to CloudFront!
+
 ```python
 simpleaws.move_bucket_to_cloudfront(bucketname)
 ```
 
 Backup a bucket!
+
 ```python
 simpleaws.backup_bucket(bucketname)
 ```
 
 Vanquish your foes!
+
 ```python
 simpleaws.vanquish_foes(vanquish)
 ```
