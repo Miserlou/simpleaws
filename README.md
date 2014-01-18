@@ -23,8 +23,7 @@ An idiot-proof way to make a public AWS based service.
     python test_simplaws.py
     ```
 
-# Usage 
-
+# Usage
 
 Connect to S3!
 
