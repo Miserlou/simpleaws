@@ -28,10 +28,18 @@ S3_USER_POLICY_TEMPLATE = """{
             "s3:GetObject",
             "s3:GetObjectVersion",
             "s3:DeleteObject",
-            "s3:DeleteObjectVersion"
+            "s3:DeleteObjectVersion",
          ],
          "Resource":"arn:aws:s3:::BUCKET_NAME/USER_NAME/*"
-      }
+      },
+      {
+         "Effect":"Allow",
+         "Action":[
+            "s3:ListBucket",
+            "s3:GetBucketLocation"
+         ],
+         "Resource":"arn:aws:s3:::BUCKET_NAME"
+      },
    ]
 }
 """
