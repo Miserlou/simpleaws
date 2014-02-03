@@ -95,11 +95,11 @@ def create_user(username, bucketname):
             response = iam.create_user(username)
             user = response.user
             policy_json = S3_USER_POLICY_TEMPLATE.replace('BUCKET_NAME', bucketname).replace('USER_NAME', username)
-            response = iam.put_user_policy(user_name=username, policy_name=bucketname + "_" + username, policy_json=policy_json)
+            response = iam.put_user_policy(user_name=username, policy_name=bucketname + "." + username, policy_json=policy_json)
             return user
 
         except Exception, e:
-            return create_retry(username + '-' + str(uuid.uuid4())[0:8], bucketname, tries-1)
+            return create_retry(username + '.' + str(uuid.uuid4())[0:8], bucketname, tries-1)
 
     return create_retry(username, bucketname, 5)
 
@@ -129,7 +129,7 @@ def create_bucket(bucketname, location=None):
             else: 
                 return s3.create_bucket(bucketname)
         except Exception, e:
-            return create_retry(bucketname + '-' + str(uuid.uuid4()), location, tries-1)
+            return create_retry(bucketname + '.' + str(uuid.uuid4()), location, tries-1)
 
     return create_retry(bucketname, location, 5)
 
