@@ -100,9 +100,10 @@ def create_user(username, bucketname):
             return user
 
         except Exception, e:
+            print e
             return create_retry(username + '-' + str(uuid.uuid4())[0:8], bucketname, tries-1)
 
-    return create_retry(username, bucketname, 5)
+    return create_retry(username, bucketname, 8)
 
 def get_user_keys(username):
     connect()
