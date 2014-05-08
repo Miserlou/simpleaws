@@ -32,6 +32,7 @@ S3_USER_POLICY_TEMPLATE = """{
             "s3:DeleteObject",
             "s3:DeleteObjectVersion"
          ],
+         "Principal": { "AWS": "*" },
          "Resource":"arn:aws:s3:::BUCKET_NAME/USER_NAME/*"
       },
       {
@@ -149,5 +150,6 @@ def move_bucket_to_cloudfront(bucketname):
     connect()
 
     origin = boto.cloudfront.origin.S3Origin(bucketname + '.s3.amazonaws.com')
+    
     distro = cloudfront.create_distribution(origin=origin, enabled=True, comment=bucketname + " Distribution")
     return distro.domain_name
