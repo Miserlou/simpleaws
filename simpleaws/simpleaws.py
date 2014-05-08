@@ -32,7 +32,6 @@ S3_USER_POLICY_TEMPLATE = """{
             "s3:DeleteObject",
             "s3:DeleteObjectVersion"
          ],
-         "Principal": { "AWS": "*" },
          "Resource":"arn:aws:s3:::BUCKET_NAME/USER_NAME/*"
       },
       {
@@ -103,7 +102,7 @@ def create_user(username, bucketname):
             print e
             return create_retry(username + '-' + str(uuid.uuid4())[0:8], bucketname, tries-1)
 
-    return create_retry(username, bucketname, 8)
+    return create_retry(username, bucketname, 5)
 
 def get_user_keys(username):
     connect()
@@ -127,9 +126,17 @@ def create_bucket(bucketname, location=None):
 
         try:
             if location:
-                return s3.create_bucket(bucketname, location)
+                bucket = s3.create_bucket(bucketname, location)
             else: 
-                return s3.create_bucket(bucketname)
+                bucket = s3.create_bucket(bucketname)
+
+            # Allow anybody to read this bucket,
+            # and also set the principal so our other AWS services
+            # can read it as well.
+            bucket.set_acl('public-read')
+
+            return bucket
+
         except Exception, e:
             return create_retry(bucketname + '-' + str(uuid.uuid4()), location, tries-1)
 
