@@ -126,7 +126,7 @@ def create_bucket(bucketname, location=None):
 
         try:
             if location:
-                bucket = s3.create_bucket(bucketname, location)
+                bucket = s3.create_bucket(bucketname, location=location)
             else: 
                 bucket = s3.create_bucket(bucketname)
 
@@ -138,6 +138,7 @@ def create_bucket(bucketname, location=None):
             return bucket
 
         except Exception, e:
+            print e
             return create_retry(bucketname + '-' + str(uuid.uuid4()), location, tries-1)
 
     return create_retry(bucketname, location, 5)

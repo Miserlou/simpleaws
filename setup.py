@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='simpleaws',
-    version='0.1.2.2',
+    version='0.1.3',
     packages=['simpleaws'],
     install_requires=['boto'],
     include_package_data=True,
