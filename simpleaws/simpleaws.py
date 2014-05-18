@@ -32,7 +32,7 @@ S3_USER_POLICY_TEMPLATE = """{
             "s3:DeleteObject",
             "s3:DeleteObjectVersion"
          ],
-         "Resource":"arn:aws:s3:::BUCKET_NAME/USER_NAME/*"
+         "Resource":"arn:aws:s3:::BUCKET_NAME/DIRECTORY_NAME/USER_NAME/*"
       },
       {
          "Effect":"Allow",
@@ -41,7 +41,7 @@ S3_USER_POLICY_TEMPLATE = """{
             "s3:GetBucketLocation",
             "s3:ListAllMyBuckets"
          ],
-         "Resource":"arn:aws:s3:::BUCKET_NAME"
+         "Resource":"arn:aws:s3:::BUCKET_NAME/DIRECTORY_NAME"
       }
    ]
 }
@@ -82,10 +82,10 @@ def connect():
 
     return connected
 
-def create_user(username, bucketname):
+def create_user(username, bucketname, directoryname):
     connect()
 
-    def create_retry(username, bucketname, tries):
+    def create_retry(username, bucketname, directoryname, tries):
 
         if tries is 0:
             print "SOMETHING WENT HORRIBLY WRONG"
@@ -94,7 +94,7 @@ def create_user(username, bucketname):
         try:
             response = iam.create_user(username)
             user = response.user
-            policy_json = S3_USER_POLICY_TEMPLATE.replace('BUCKET_NAME', bucketname).replace('USER_NAME', username)
+            policy_json = S3_USER_POLICY_TEMPLATE.replace('BUCKET_NAME', bucketname).replace('DIRECTORY_NAME', directoryname).replace('USER_NAME', username)
             response = iam.put_user_policy(user_name=username, policy_name=bucketname + "_" + username, policy_json=policy_json)
             return user
 
@@ -102,7 +102,7 @@ def create_user(username, bucketname):
             print e
             return create_retry(username + '-' + str(uuid.uuid4())[0:8], bucketname, tries-1)
 
-    return create_retry(username, bucketname, 5)
+    return create_retry(username, bucketname, directoryname, 5)
 
 def get_user_keys(username):
     connect()
